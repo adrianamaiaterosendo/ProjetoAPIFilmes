@@ -59,7 +59,7 @@ namespace TreinoApi.Controllers
 
             }
             var mediaAvaliacao = avaliacao / filmeAv.Count();
-                var filmes = database.Filmes.Include(f => f.AtoresFilmes).Include(g=> g.FilmesGeneros).First(f=> f.Id == id);
+                var filmes = database.Filmes.Include(f => f.AtoresFilmes).Include(g=> g.FilmesGeneros).Include(a=> a.AvaliacaoFilmes).First(f=> f.Id == id);
                 FilmesContainer filmeHATEOAS = new FilmesContainer();
                 filmeHATEOAS.filmes = filmes;
                 filmeHATEOAS.mediaAvaliacao =  mediaAvaliacao;
