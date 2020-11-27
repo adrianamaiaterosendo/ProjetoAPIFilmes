@@ -15,6 +15,7 @@ namespace TreinoApi.Controllers
 
     [Route("api/v1/[controller]")]
     [ApiController]
+    //[Authorize]
     public class AvaliacaoController : ControllerBase
     {
          private readonly ApplicationDbContext database;
@@ -62,6 +63,7 @@ namespace TreinoApi.Controllers
                
                 AvaliacaoContainer avaliacaoHATEOAS = new AvaliacaoContainer();
                 avaliacaoHATEOAS.mediaAvaliacao = mediaAvaliacao;
+                avaliacaoHATEOAS.quantidadeAvaliação = filmeAvm.Count();
                 avaliacaoHATEOAS.filmes = filmesAv.Filmes;
                 avaliacaoHATEOAS.avaliacao = filmesAv;                
                 avaliacaoHATEOAS.links = HATEOAS.GetActions(filmesAv.Id.ToString());
@@ -125,6 +127,8 @@ namespace TreinoApi.Controllers
             
             [JsonIgnore]
             public AvaliacaoFilme avaliacao {get; set;}
+
+            public int quantidadeAvaliação{get; set;}
 
             public double mediaAvaliacao {get; set;}
 

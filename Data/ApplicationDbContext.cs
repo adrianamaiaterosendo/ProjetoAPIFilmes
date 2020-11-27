@@ -11,7 +11,8 @@ namespace TreinoApi.Data
 
         public DbSet<Atores> Atores {get; set;}         
         public DbSet<Filmes> Filmes {get; set;}
-        public DbSet<Genero> Generos {get; set;}
+        public DbSet<Genero> Generos {get; set;}        
+        public DbSet<Usuario> Usuarios {get; set;}
 
         public DbSet<AtoresFilmes> AtoresFilmes {get; set;}
         public DbSet<FilmesGeneros> FilmesGeneros {get; set;}

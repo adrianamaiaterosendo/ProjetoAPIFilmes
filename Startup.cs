@@ -16,6 +16,8 @@ using TreinoApi.Data;
 using System.Reflection;
 using System.IO;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace TreinoApi
@@ -33,6 +35,25 @@ namespace TreinoApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options=> options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+
+              services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options=> {
+
+                string chaveSeguranca = "treinoapi_chave_seguranca_estudos_gft";
+                var chaveSimetrica = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(chaveSeguranca));
+
+                options.TokenValidationParameters = new TokenValidationParameters{
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateIssuerSigningKey = true,
+
+                    ValidIssuer = "TreinoApi" ,
+                    ValidAudience = "usuario_comum",
+                    IssuerSigningKey = chaveSimetrica
+                };
+
+            });
+
+
             services.AddControllers();
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -54,6 +75,8 @@ namespace TreinoApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication(); 
 
             app.UseAuthorization();
 

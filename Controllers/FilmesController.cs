@@ -30,7 +30,7 @@ namespace TreinoApi.Controllers
 
         [HttpGet]   
         public IActionResult ListaFilmes (){
-            var filmes = database.Filmes.Include(f => f.AtoresFilmes).Include(g=> g.FilmesGeneros).ToList();
+            var filmes = database.Filmes.Include(f => f.AtoresFilmes).Include(g=> g.FilmesGeneros).Include(a=> a.AvaliacaoFilmes).ToList();
 
              List<FilmesContainer> filmesHATEOAS = new List<FilmesContainer>();
             foreach(var filme in filmes){
