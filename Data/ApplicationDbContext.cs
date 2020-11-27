@@ -16,6 +16,8 @@ namespace TreinoApi.Data
         public DbSet<AtoresFilmes> AtoresFilmes {get; set;}
         public DbSet<FilmesGeneros> FilmesGeneros {get; set;}
 
+        public DbSet<AvaliacaoFilme> AvaliacaoFilmes {get; set;}
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base (options)
         { }

@@ -14,6 +14,7 @@ namespace TreinoApi.Models
         
         public ICollection <AtoresFilmes> AtoresFilmes{get; set;}
         public ICollection <FilmesGeneros> FilmesGeneros{get; set;}
+        public ICollection <AvaliacaoFilme> AvaliacaoFilmes{get; set;}
 
         public bool Disponivel {get; set;}
     }

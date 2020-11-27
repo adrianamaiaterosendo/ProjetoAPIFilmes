@@ -40,6 +40,8 @@ namespace TreinoApi.Controllers
                 filmesHATEOAS.Add(filmeHATEOAS);
 
             }
+
+            
            return Ok(new{filmesHATEOAS});            
         }            
         
@@ -48,11 +50,23 @@ namespace TreinoApi.Controllers
         public IActionResult Get(int id){
 
             try{
+
+                 var filmeAv = database.AvaliacaoFilmes.Where(a=> a.FilmesId == id).ToList();
+                 double avaliacao = 0;
+            foreach(var media in filmeAv){
+                
+                avaliacao = media.NotaFilme + avaliacao;
+
+            }
+            var mediaAvaliacao = avaliacao / filmeAv.Count();
                 var filmes = database.Filmes.Include(f => f.AtoresFilmes).Include(g=> g.FilmesGeneros).First(f=> f.Id == id);
                 FilmesContainer filmeHATEOAS = new FilmesContainer();
                 filmeHATEOAS.filmes = filmes;
+                filmeHATEOAS.mediaAvaliacao =  mediaAvaliacao;
                 filmeHATEOAS.links = HATEOAS.GetActions(filmes.Id.ToString());
             return Ok(filmeHATEOAS); 
+
+           
  
             }catch(Exception ){  
 
@@ -93,11 +107,14 @@ namespace TreinoApi.Controllers
             filmes.Idioma = fTemp.Idioma;
             filmes.DataLancamento = fTemp.DataLancamento;
             filmes.Disponivel = true;
-            
+         
            
             
             database.Filmes.Add(filmes);
             database.SaveChanges();
+
+            
+
             var filmeId = database.Filmes.Where(f=> f.Nome == filmes.Nome).First(a=> a.Id == filmes.Id);
 
              foreach (var atorFilmeId in fTemp.AtoresFilmesId){
@@ -121,6 +138,7 @@ namespace TreinoApi.Controllers
                         database.SaveChanges();
                     };
 
+            
 
 
             Response.StatusCode = 201;
@@ -259,6 +277,8 @@ namespace TreinoApi.Controllers
             public Filmes filmes {get; set;}
 
             public Link[] links {get; set;}
+
+            public double mediaAvaliacao {get; set;}
         }
 
 
